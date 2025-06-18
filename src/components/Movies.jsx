@@ -4,74 +4,160 @@ import Moviecard from './Moviecard';
 import { motion, AnimatePresence } from 'framer-motion';
 import Genre from './Genre';
 import Header from './Header';
-// import { Pagebtn } from './Pagebtn';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
 
 function Movies() {
-
-    const { movies, loader, page, setPage, totalPage, setMovies, activegenre, filteredGenre } = useContext(Contextpage);
+    const { 
+        movies, 
+        loader, 
+        loadingMore,
+        page, 
+        setPage, 
+        totalPage, 
+        setMovies, 
+        activegenre, 
+        filteredGenre 
+    } = useContext(Contextpage);
 
     useEffect(() => {
-        setPage(1) // Reset Page to 1 on initial render.
+        setPage(1); // Reset Page to 1 on initial render.
     }, []);
     
     useEffect(() => {
-        setMovies([])  // Reset movies on genre change so that movies of other genre will not appear at top.
-        setPage(0)
-        /* Set page to 0, it will automatically increment to 1 and will cause re render even if the page is already set to 1. The increment function is in context page.
-        It is important to set page to 0, as on changing genre, if page is already set to 1 then the fetch function will not work as the page state variable is not changed, that's why we are setting page to 0 to force re-render. 
-        */
+        setMovies([]); // Reset movies on genre change
+        setPage(1); // Reset to page 1 instead of 0
     }, [activegenre]);
 
     useEffect(() => {
         if (page > 0) {
-            filteredGenre(); // Fetch filtered genre when page changes and only if page is greater than 0.
+            filteredGenre(); // Fetch movies when page changes
         }
-    }, [page])
-    /* Page is dependency here, the funtion will only run if new page value is different from previous. 
-    That's why we are first setting page=0, then context page will automatically increment page=1 and the function will run. 
-    */
+    }, [page]);
 
+    const handleLoadMore = () => {
+        if (page < totalPage && !loadingMore) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePageChange = (newPage) => {
+        if (newPage !== page && newPage >= 1 && newPage <= totalPage && !loadingMore) {
+            setMovies([]); // Clear movies when jumping to a specific page
+            setPage(newPage);
+        }
+    };
 
     return (
-
         <div className='w-full bg-[#10141e] md:p-10 mb-20 md:mb-0'>
             <Genre />
             <Header />
+            
             <motion.div
                 layout
                 className="flex flex-wrap relative justify-evenly md:justify-around">
                 <AnimatePresence>
-                    {
-                        loader ? <span className="loader m-10"></span> :
-                            <>
-                                {/* {console.log(movies.length)} */}
-                                <InfiniteScroll
-                                    className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
-                                    dataLength={movies.length} //This is important field to render the next data
-                                    next={() => setPage(page + 1)}
-                                    hasMore={page < totalPage}
-                                    loader={<span className="loader m-10"></span>}
-                                    scrollThreshol={0.9}
-                                    style={{ overflow: 'hidden' }}
-                                >
-
-                                    {movies.map((movie) => (
-                                        <Moviecard key={movie.id} movie={movie} />
-                                    ))}
-
-                                </InfiniteScroll>
-
-                            </>
-                    }
+                    {loader ? (
+                        <div className="w-full flex justify-center py-10">
+                            <span className="loader"></span>
+                        </div>
+                    ) : (
+                        <div className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around">
+                            {movies.map((movie) => (
+                                <Moviecard key={`${movie.id}-${page}`} movie={movie} />
+                            ))}
+                        </div>
+                    )}
                 </AnimatePresence>
             </motion.div>
-            {/* <Pagebtn /> */}
 
+            {/* Pagination Controls */}
+            {!loader && movies.length > 0 && (
+                <div className="flex flex-col items-center mt-8 space-y-4">
+                    {/* Load More Button */}
+                    {page < totalPage && (
+                        <button
+                            onClick={handleLoadMore}
+                            disabled={loadingMore}
+                            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                        >
+                            {loadingMore ? (
+                                <>
+                                    <span className="loader-small"></span>
+                                    <span>Loading...</span>
+                                </>
+                            ) : (
+                                'Load More Movies'
+                            )}
+                        </button>
+                    )}
+
+                    {/* Page Info */}
+                    <div className="text-gray-400 text-sm text-center">
+                        Page {page} of {totalPage} • {movies.length} movies loaded
+                        {page === totalPage && <div className="text-green-400 mt-1">All movies loaded!</div>}
+                    </div>
+
+                    {/* Traditional Pagination */}
+                    <div className="flex items-center space-x-2 flex-wrap justify-center">
+                        <button
+                            onClick={() => handlePageChange(1)}
+                            disabled={page === 1 || loadingMore}
+                            className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            First
+                        </button>
+                        
+                        <button
+                            onClick={() => handlePageChange(page - 1)}
+                            disabled={page === 1 || loadingMore}
+                            className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Previous
+                        </button>
+                        
+                        {/* Page Numbers */}
+                        <div className="flex space-x-1">
+                            {Array.from({ length: Math.min(5, totalPage) }, (_, i) => {
+                                const pageNum = Math.max(1, Math.min(totalPage - 4, page - 2)) + i;
+                                if (pageNum <= totalPage) {
+                                    return (
+                                        <button
+                                            key={pageNum}
+                                            onClick={() => handlePageChange(pageNum)}
+                                            disabled={loadingMore}
+                                            className={`px-3 py-2 rounded transition-colors ${
+                                                pageNum === page
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                                            } disabled:opacity-50`}
+                                        >
+                                            {pageNum}
+                                        </button>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+
+                        <button
+                            onClick={() => handlePageChange(page + 1)}
+                            disabled={page === totalPage || loadingMore}
+                            className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Next
+                        </button>
+
+                        <button
+                            onClick={() => handlePageChange(totalPage)}
+                            disabled={page === totalPage || loadingMore}
+                            className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Last
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
-
 
 export default Movies
