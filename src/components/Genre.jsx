@@ -3,7 +3,7 @@ import Contextpage from '../Contextpage';
 import {Helmet} from "react-helmet";
 
 function Genre() {
-    const { fetchGenre, activegenre, setActiveGenre, genres, setMovies, page, setPage, filteredGenre } = useContext(Contextpage);    
+    const { fetchGenre, activegenre, setActiveGenre, genres, setMovies, page, setPage, filteredGenre } = useContext(Contextpage);
 
 
     useEffect(() => {
@@ -33,10 +33,19 @@ function Genre() {
                 genres.map((genre) => (
 
                     <button
-                        onClick={() => setActiveGenre(genre.id)}
-                        className={activegenre === genre.id ? 'active px-4 py-2 m-2 text-[15px] text-white font-semibold rounded-3xl' : 'px-4 py-2 m-2 text-[15px] bg-slate-800 text-white font-semibold rounded-3xl'} key={genre.id}>
-                        {genre.name}
-                    </button>
+  onClick={() => {
+    setActiveGenre(genre.id);
+    setPage(1);
+  }}
+  className={
+    activegenre === genre.id
+      ? 'active px-4 py-2 m-2 text-[15px] text-white font-semibold rounded-3xl'
+      : 'px-4 py-2 m-2 text-[15px] bg-slate-800 text-white font-semibold rounded-3xl'
+  }
+  key={genre.id}
+>
+  {genre.name}
+</button>
 
                 ))
             }

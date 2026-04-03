@@ -47,14 +47,14 @@ export function MovieProvider({ children }) {
         `https://api.themoviedb.org/3/discover/movie?with_genres=${activegenre}&api_key=${APIKEY}&with_origin_country=IN&page=${page}`
       );
       const filteredGenreData = await data.json();
-      
+
       // Handle first page vs subsequent pages
       if (page === 1) {
         setMovies(filteredGenreData.results); // Replace movies for first page
       } else {
         setMovies(prevMovies => [...prevMovies, ...filteredGenreData.results]); // Append for subsequent pages
       }
-      
+
       setTotalPage(filteredGenreData.total_pages);
       setHeader("Genres");
     } catch (error) {
@@ -73,7 +73,7 @@ export function MovieProvider({ children }) {
         `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&with_origin_country=IN&language=en-US&query=${query}&page=1&include_adult=true`
       );
       const searchmovies = await data.json();
-      setSearchedMovies(searchmovies.results); 
+      setSearchedMovies(searchmovies.results);
       setHeader(`Results for "${query}"`);
     } catch (error) {
       console.error('Error searching movies:', error);
@@ -95,13 +95,13 @@ export function MovieProvider({ children }) {
         `https://api.themoviedb.org/3/discover/movie?with_genres=${activegenre}&api_key=${APIKEY}&with_keywords=210024|287501&page=${page}`
       );
       const filteredGenreData = await data.json();
-      
+
       if (page === 1) {
         setMovies(filteredGenreData.results);
       } else {
         setMovies(prevMovies => [...prevMovies, ...filteredGenreData.results]);
       }
-      
+
       setTotalPage(filteredGenreData.total_pages);
       setHeader("Anime");
     } catch (error) {
@@ -137,13 +137,13 @@ export function MovieProvider({ children }) {
         `https://api.themoviedb.org/3/trending/movie/day?api_key=${APIKEY}&with_origin_country=IN&page=${page}`
       );
       const trend = await data.json();
-      
+
       if (page === 1) {
         setTrending(trend.results);
       } else {
         setTrending(prevTrending => [...prevTrending, ...trend.results]);
       }
-      
+
       setTotalPage(trend.total_pages);
       setHeader("Trending Movies");
     } catch (error) {
@@ -167,13 +167,13 @@ export function MovieProvider({ children }) {
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&with_origin_country=IN&language=en-US&page=${page}`
       );
       const upc = await data.json();
-      
+
       if (page === 1) {
         setUpcoming(upc.results);
       } else {
         setUpcoming(prevUpcoming => [...prevUpcoming, ...upc.results]);
       }
-      
+
       setTotalPage(upc.total_pages);
       setHeader("Upcoming Movies");
     } catch (error) {
@@ -205,6 +205,11 @@ export function MovieProvider({ children }) {
     }
   }
   // <==========================================================>
+    useEffect(() => {
+  if (activegenre) {
+    filteredGenre();
+  }
+}, [activegenre, page]);
 
   return (
     <Contextpage.Provider
@@ -246,4 +251,4 @@ export function MovieProvider({ children }) {
   );
 }
 
-export default Contextpage
+export default Contextpage;
