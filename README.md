@@ -1,107 +1,87 @@
-<h1 align="center">🎬 BlueBird Movies</h1>
+<h1 align="center">BlueBird-Movies</h1>
+BlueBird-Movies is a React-based movie website that allows users to search for movies by title, sort them by genre, view trending and upcoming movies, and bookmark their favorite movies. The website is designed to be user-friendly and visually appealing.
+<hr/>
 
-<p align="center">
-A modern movie discovery platform built with React, powered by TMDB API, featuring search, trending movies, and personalized bookmarks.
-</p>
+![background](https://user-images.githubusercontent.com/87109400/231843668-00e0d9aa-8447-4148-8a3a-0b68135c0795.png)
 
-<p align="center">
-  <a href="https://bluebirdmovies.netlify.app/">🔗 Live Demo</a>
-</p>
+<hr/>
 
----
+# 🍿 Features
 
-## 📌 Overview
+- Search and watch movies: users can search for movies by title and can watch them easily
+- Genre-wise display: movies can be sorted by genre
+- Trending Movies: displays a section for trending movies
+- Upcoming movies: displays a section for upcoming movies
+- Movie Details: users can view detailed information about each movie
+- Bookmark Movies: users can bookmark their favorite movies for later viewing
+- Google Authentication: users can sign in using their Google account
 
-**BlueBird Movies** is a responsive and visually engaging movie web application that allows users to explore, search, and bookmark movies effortlessly. It integrates real-time data from TMDB and provides a smooth UI experience with animations.
+<hr/>
 
----
+# 🍿 Technology
 
-## ✨ Features
+BlueBird-Movies is built using the following technologies:
 
-- 🔍 **Search Movies** – Find movies instantly by title
-- 🎭 **Genre Filtering** – Browse movies by categories
-- 🔥 **Trending Movies** – Stay updated with popular content
-- 🎬 **Upcoming Releases** – Discover what's coming next
-- 📄 **Movie Details Page** – View complete information
-- ⭐ **Bookmark System** – Save favorite movies
-- 🔐 **Google Authentication** – Secure login via Firebase
+- ReactJS
+- TMDB API
+- Firebase Google Authentication
+- Framer Motion
 
----
+<hr/>
 
-## 🛠️ Tech Stack
+# 🍿 How to Run the Website on Your System
 
-- ⚛️ :contentReference[oaicite:0]{index=0}
-- 🎥 :contentReference[oaicite:1]{index=1}
-- 🔥 :contentReference[oaicite:2]{index=2} (Authentication)
-- 🎞️ :contentReference[oaicite:3]{index=3}
+## Step 1: Download and Extract the Code
 
----
+Firstly, download the entire website code and extract the ZIP file to a folder on your local system.
 
-## ⚙️ Setup Instructions
+## Step 2: Obtain the TMDB Movies API Key and Firebase Configuration
 
-### 1️⃣ Clone the Repository
+Before starting the website, you will need to obtain the TMDB Movies API key and Firebase configuration. Follow these steps to obtain them and add them to your `.env` file.
+
+### ▶️ Get TMDB API Key
+
+- Go to https://www.themoviedb.org/ and log in.
+- Click on your user profile picture in the navigation bar, and select "Settings".
+- In the settings, select "API" and generate an API key.
+
+### ▶️ Firebase Setup
+
+Note that Firebase is only required for Google authentication. If you are not using Google authentication in your application, you can skip this step.
+
+- Go to the Firebase Console and create a new app.
+- After creating the app, build a web app by clicking "Add App" and following the instructions.
+
+![Firebase Add App Screenshot](https://user-images.githubusercontent.com/87109400/231569204-445d8007-fe75-4012-a21b-a71f4f4bc697.png)
+
+![Firebase Build App Screenshot](https://user-images.githubusercontent.com/87109400/231568774-1ea09ada-34b8-4035-80d4-90ac79c1c8ed.png)
+
+- Copy the configuration information provided in the green line, and paste it into the `.env` file:
+
+![image](https://user-images.githubusercontent.com/87109400/231570250-9256c1bc-6669-423a-8b95-06d9577485a0.png)
+
+- Next, to activate Google authentication in Firebase, go to **Build > Authentication** and enable Google authentication.
+- To use Google authentication in localhost, add your localhost/127.0.0.1 as an Authorized Domain at **Build > Authentication > Settings > Authorized Domains** and add localhost or 127.0.0.1 to this section.
+
+![image](https://user-images.githubusercontent.com/87109400/231575419-ca703ebd-5380-45b6-8afe-33b9c1af778e.png)
+
+## Step 3: Run the Website
+
+Open your code editor (such as VS Code) and navigate to the project directory. Then, open a terminal and run the following command:
 
 ```bash
-git clone https://github.com/your-username/bluebird-movies.git
-cd bluebird-movies
-2️⃣ Install Dependencies
-npm install
-3️⃣ Environment Variables Setup
-
-Create a .env file in the root directory and add:
-
-VITE_TMDB_API_KEY=your_tmdb_api_key
-
-VITE_FIREBASE_API_KEY=your_firebase_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-
-
-4️⃣ Get API Keys
-🎥 TMDB API
-Visit: https://www.themoviedb.org/
-Go to Settings → API → Generate Key
-🔥 Firebase Setup
-Create project in Firebase Console
-Enable Google Authentication
-Add localhost in Authorized Domains
-5️⃣ Run the App
 npm run dev
+```
+This will start the application. Open a web browser and navigate to http://localhost:3000 to access the website.
 
-Visit 👉 http://localhost:5173
+Note: Ensure that you have carefully added the TMDB API key and Firebase authentication configuration to your .env file. If the .env file is not working, add all the API keys and configuration manually.
 
-🌐 Live Demo
+<hr/>
 
-👉 https://bluebirdmovies.netlify.app/
+# 🍿 Demo
 
-🤝 Contributing
+- Check out our live demo at https://moviehubi.netlify.app
 
-Contributions are welcome!
+# 😍 Contribution
 
-Fork the repo
-Create a new branch (feature/your-feature)
-Commit changes
-Push and open a Pull Request
-📌 Future Improvements
-🎯 AI-based movie recommendations
-🧠 Smart search suggestions
-📱 Better mobile optimization
-🌙 Dark/Light theme toggle
-📄 License
-
-This project is open-source and available under the MIT License.
-
-💙 Acknowledgements
-TMDB for providing movie data
-Firebase for authentication services
-<p align="center">Made with ❤️ using React</p> ```
-🔥 What I Improved (Important)
-Clean structure (Overview → Features → Setup → Demo)
-Added professional tone
-Better developer-friendly setup
-Added future improvements (very important for recruiters)
-Proper env setup (Vite compatible)
-Removed clutter & repeated stuff
+Contributions are always welcome, open a **Pull Request** and help us improve our project.
