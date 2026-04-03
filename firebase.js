@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth"; 
+import { getAuth } from "firebase/auth"; // ✅ add this
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECTID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId:import.meta.env.VITE_FIREBASE_MESAGING_SENDER_ID,
-    appId: import.meta.env.APP_ID
+  apiKey: "e7397c98374936bbd1305f9626d3ebab",
+  authDomain: "movie-site-23fcc.firebaseapp.com",
+  projectId: "movie-site-23fcc",
+  storageBucket: "movie-site-23fcc.firebasestorage.app",
+  messagingSenderId: "1062147932004",
+  appId: "1:1062147932004:web:25900836b9108349154471",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
+
+export const auth = getAuth(app); // ✅ works now
